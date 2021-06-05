@@ -4,11 +4,11 @@ inmates = {
 		"strength": 55,
 		"friendliness": 40
 	},
-    "Bob": {
+	"Bob": {
 		"strength": 70,
 		"friendliness": 20
 	},
-    "Joe": {
+	"Joe": {
 		"strength": 23,
 		"friendliness": 79
 	},

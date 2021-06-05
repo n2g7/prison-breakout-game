@@ -11,7 +11,7 @@ class Player:
 
 # Inmate class
 class Inmate:
-	
+
 	def __init__(self, name, strength, friendliness) -> None:
 		self.name = name
 		self.strength = strength
@@ -20,7 +20,7 @@ class Inmate:
 
 # Prison guard class
 class Guard:
-	
+
 	def __init__(self, number, friendliness) -> None:
 		self.number = number
 		self.friendliness = friendliness
