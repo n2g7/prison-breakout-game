@@ -21,13 +21,13 @@ inmates = {
 }
 
 # Prison schedule data
-schedule = {
-	"cells": 1,
-	"cafeteria": 3,
-	"laundry": 2,
-	"yard": 4,
-	"cafeteria": 3,
-	"library": 5,
-	"cafeteria": 4,
-	"cells": 2
-}
+schedule = [
+	{"location": "cells", "duration": 1},
+	{"location": "cafeteria", "duration": 3},
+	{"location": "laundry", "duration": 2},
+	{"location": "yard", "duration": 4},
+	{"location": "cafeteria", "duration": 3},
+	{"location": "library", "duration": 5},
+	{"location": "cafeteria", "duration": 4},
+	{"location": "cells", "duration": 2},
+]

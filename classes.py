@@ -122,10 +122,20 @@ class Controller:
 
 # Schedule class
 class Schedule:
-	 
-	 def __init__(self, events) -> None:
-		 self.events = [Event(event, events[event]) for event in events]
+	event_counter = 0
 
+	def __init__(self, events) -> None:
+		self.events = [Event(event["location"], event["duration"]) for event in events]
+
+	def current_event(self):
+		return(self.events[self.event_counter])
+
+	def next(self):
+		if self.event_counter >= len(self.events) - 1:
+			self.event_counter = 0
+		else:
+			self.event_counter += 1
+		
 
 # Eent class
 class Event:
@@ -133,3 +143,6 @@ class Event:
 	def __init__(self, location, duration) -> None:
 		self.location = location
 		self.duration = duration
+
+	def __str__(self) -> str:
+		return f"{self.location} for {self.duration} units"
