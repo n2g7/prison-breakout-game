@@ -23,17 +23,20 @@ class Player:
 		if new_room in self.prison.rooms:
 			self.get_location().occupants.remove(self)
 			self.prison.rooms[new_room].occupants.append(self)
+			return "moved"
 		else:
 			print("No such room")
 
 	def bribe(self):
 		print("How's 'bout I make you an offer you can't refuse?")
+		return "bribed"
 
 	def interact(self):
 		if len(self.get_location().other_occupants(self)) > 0:
 			other_inmate = random.choice(self.get_location().other_occupants(self))
 			print("You: Hey")
 			print(f"{other_inmate.name}: {random.choice(other_inmate.dialogues)}")
+			return "interacted"
 		else:
 			print("I'm alone")
 
@@ -101,21 +104,21 @@ class Controller:
 		player_input = input("Input: ").lower().strip().split(" ")
 		try:
 			if len(player_input) == 1:
-				getattr(self, player_input[0])()
+				return getattr(self, player_input[0])()
 			elif len(player_input) == 2:
-				getattr(self, player_input[0])(player_input[1])
+				return getattr(self, player_input[0])(player_input[1])
 		except:
 			print("Error")
 	
 	
 	def goto(self, location):
-		self.player.move(location)
+		return self.player.move(location)
 
 	def talk(self, person):
 		if person == "guard":
-			self.player.bribe()
+			return self.player.bribe()
 		elif person == "inmate":
-			self.player.interact()
+			return self.player.interact()
 		else: 
 			print("No such person")
 
@@ -130,7 +133,7 @@ class Schedule:
 	def current_event(self):
 		return(self.events[self.event_counter])
 
-	def next(self):
+	def progress(self):
 		if self.event_counter >= len(self.events) - 1:
 			self.event_counter = 0
 		else:

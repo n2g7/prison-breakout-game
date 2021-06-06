@@ -24,7 +24,9 @@ prison.rooms["cells"].occupants.append(player)
 prison.rooms["cells"].occupants.extend(list(inmates.values()))
 
 while True:
+	action_counter = 0
 	print(schedule.current_event())
-	for time in range(schedule.current_event().duration):
-		controller.get_input()
-	schedule.next()
+	while action_counter < schedule.current_event().duration:
+		if controller.get_input() in ["interacted", "bribed"]:
+			action_counter += 1
+	schedule.progress()
