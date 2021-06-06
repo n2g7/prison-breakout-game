@@ -1,4 +1,5 @@
 import random
+import utilities
 
 # Player class
 class Player:
@@ -7,9 +8,10 @@ class Player:
 	static_inventory = []
 	mobile_inventory = []
 
-	def __init__(self, name, prison) -> None:
+	def __init__(self, name, prison, schedule) -> None:
 		self.name = name
 		self.prison = prison
+		self.schedule = schedule
 
 	def __str__(self) -> str:
 		return self.name
@@ -122,10 +124,20 @@ class Controller:
 		else: 
 			print("No such person")
 
+	def info(self, information):
+		if information == "when":
+			event = self.player.schedule.current_event()
+			print(f"{self.player.schedule.action_counter} of {event.duration} units")
+		elif information == "where":
+			print(f"You are in the {self.player.get_location()}")
+		else: 
+			print("No such information")
+
 
 # Schedule class
 class Schedule:
 	event_counter = 0
+	action_counter = 0
 
 	def __init__(self, events) -> None:
 		self.events = [Event(event["location"], event["duration"]) for event in events]
@@ -133,11 +145,12 @@ class Schedule:
 	def current_event(self):
 		return(self.events[self.event_counter])
 
-	def progress(self):
-		if self.event_counter >= len(self.events) - 1:
-			self.event_counter = 0
-		else:
-			self.event_counter += 1
+	def increment_event(self):
+		self.event_counter = utilities.loopback_increment(self.event_counter, len(self.events) - 1)
+		print(self.current_event())
+
+	def increment_action(self):
+		self.action_counter = utilities.loopback_increment(self.action_counter, self.current_event().duration)
 		
 
 # Eent class
