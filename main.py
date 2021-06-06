@@ -19,3 +19,7 @@ controller = classes.Controller(player)
 # Initialize character positions
 prison.rooms["cells"].occupants.append(player)
 prison.rooms["cells"].occupants.extend(list(inmates.values()))
+
+while True:
+	controller.get_input()
+	print(f"You are in the {player.get_location()}, with {', '.join([player.name for player in player.get_location().other_occupants(player)])}")

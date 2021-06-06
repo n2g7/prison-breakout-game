@@ -26,11 +26,12 @@ class Player:
 		else:
 			print("No such room")
 
+	def bribe(self):
+		print("How's 'bout I make you an offer you can't refuse?")
+
 	def interact(self):
-		other_occupants = self.get_location().occupants.copy()
-		other_occupants.remove(self)
-		if len(self.get_location().occupants) > 0:
-			other_inmate = random.choice(other_occupants)
+		if len(self.get_location().other_occupants(self)) > 0:
+			other_inmate = random.choice(self.get_location().other_occupants(self))
 			print("You: Hey")
 			print(f"{other_inmate.name}: {random.choice(other_inmate.dialogues)}")
 		else:
@@ -84,6 +85,11 @@ class Room:
 	def __str__(self) -> str:
 		return self.name
 
+	def other_occupants(self, person):
+		other_occupants = self.occupants.copy()
+		other_occupants.remove(person)
+		return other_occupants
+
 
 # Controller class
 class Controller:
@@ -98,15 +104,17 @@ class Controller:
 				getattr(self, player_input[0])()
 			elif len(player_input) == 2:
 				getattr(self, player_input[0])(player_input[1])
-			else:
-				print("Invalid arguments")
-		except TypeError:
-			print("Invalid arguments")
-		except AttributeError:
-			print("Invalid command")
+		except:
+			print("Error")
+	
 	
 	def goto(self, location):
 		self.player.move(location)
 
-	def talk(self):
-		self.player.interact()
+	def talk(self, person):
+		if person == "guard":
+			self.player.bribe()
+		elif person == "inmate":
+			self.player.interact()
+		else: 
+			print("No such person")
