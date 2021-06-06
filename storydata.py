@@ -1,5 +1,13 @@
-# Prison data
-rooms = ["cells", "cafeteria", "yard", "laundry", "library", "solitary", "office"]
+# Prison room data
+rooms = [
+	{"name": "cells", "guards": 3},
+	{"name": "cafeteria", "guards": 4},
+	{"name": "yard", "guards": 5},
+	{"name": "laundry", "guards": 1},
+	{"name": "library", "guards": 2},
+	{"name": "solitary", "guards": 0},
+	{"name": "office", "guards": 2},
+]
 
 # Inmates data
 inmates = {

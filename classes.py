@@ -16,14 +16,14 @@ class Player:
 	def __str__(self) -> str:
 		return self.name
 
-	def get_location(self):
+	def location(self):
 		for room in self.prison.rooms.values():
 			if self in room.occupants:
 				return room
 
 	def move(self, new_room):
 		if new_room in self.prison.rooms:
-			self.get_location().occupants.remove(self)
+			self.location().occupants.remove(self)
 			self.prison.rooms[new_room].occupants.append(self)
 			return "moved"
 		else:
@@ -34,8 +34,8 @@ class Player:
 		return "bribed"
 
 	def interact(self):
-		if len(self.get_location().other_occupants(self)) > 0:
-			other_inmate = random.choice(self.get_location().other_occupants(self))
+		if len(self.location().other_occupants(self)) > 0:
+			other_inmate = random.choice(self.location().other_occupants(self))
 			print("You: Hey")
 			print(f"{other_inmate.name}: {random.choice(other_inmate.dialogues)}")
 			return "interacted"
@@ -72,8 +72,8 @@ class Guard:
 # Prison class
 class Prison:
 
-	def __init__(self, room_names) -> None:
-		self.rooms = {name:Room(name, [], []) for name in room_names}
+	def __init__(self, rooms) -> None:
+		self.rooms = {room["name"]:Room(room["name"], room["guards"], [], []) for room in rooms}
 
 	def __str__(self) -> str:
 		return "Adironacks Correctional Facility"
@@ -82,8 +82,9 @@ class Prison:
 # Room class
 class Room:
 
-	def __init__(self, name, assets, occupants) -> None:
+	def __init__(self, name, guards, assets, occupants) -> None:
 		self.name = name
+		self.guards = guards
 		self.assets = assets
 		self.occupants = occupants
 
@@ -104,13 +105,17 @@ class Controller:
 
 	def get_input(self):
 		player_input = input("Input: ").lower().strip().split(" ")
-		try:
-			if len(player_input) == 1:
-				return getattr(self, player_input[0])()
-			elif len(player_input) == 2:
-				return getattr(self, player_input[0])(player_input[1])
-		except:
-			print("Error")
+		# try:
+		# 	if len(player_input) == 1:
+		# 		return getattr(self, player_input[0])()
+		# 	elif len(player_input) == 2:
+		# 		return getattr(self, player_input[0])(player_input[1])
+		# except:
+		# 	print("Error")
+		if len(player_input) == 1:
+			return getattr(self, player_input[0])()
+		elif len(player_input) == 2:
+			return getattr(self, player_input[0])(player_input[1])
 	
 	
 	def goto(self, location):
@@ -129,7 +134,11 @@ class Controller:
 			event = self.player.schedule.current_event()
 			print(f"{self.player.schedule.action_counter} of {event.duration} units")
 		elif information == "where":
-			print(f"You are in the {self.player.get_location()}")
+			print(f"You are in the {self.player.location()}")
+		elif information == "who":
+			other_inmates = self.player.location().other_occupants(self.player)
+			other_inmates_formatted = ', '.join([inmate.name for inmate in other_inmates]) if other_inmates else "No other inmates"
+			print(f"{other_inmates_formatted}, and {self.player.location().guards} guards")
 		else: 
 			print("No such information")
 
