@@ -1,3 +1,6 @@
+# Prison data
+rooms = ["cells", "cafeteria", "yard", "laundry", "library", "solitary", "office"]
+
 # Inmates data
 inmates = {
 	"Billy": {
@@ -15,4 +18,16 @@ inmates = {
 		"friendliness": 79,
 		"dialogues": ["bruv", "ski"]
 	},
+}
+
+# Prison schedule data
+schedule = {
+	"cells": 1,
+	"cafeteria": 3,
+	"laundry": 2,
+	"yard": 4,
+	"cafeteria": 3,
+	"library": 5,
+	"cafeteria": 4,
+	"cells": 2
 }

@@ -6,7 +6,10 @@ import storydata
 guard_count = 10
 
 # Initialize prison
-prison = classes.Prison(["cells", "cafeteria", "yard", "laundry", "library", "solitary", "office"])
+prison = classes.Prison(storydata.rooms)
+
+# Initialize schedule
+schedule = classes.Schedule(storydata.schedule)
 
 # Initialize player and characters
 player = classes.Player("Andy", prison)

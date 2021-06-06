@@ -118,3 +118,18 @@ class Controller:
 			self.player.interact()
 		else: 
 			print("No such person")
+
+
+# Schedule class
+class Schedule:
+	 
+	 def __init__(self, events) -> None:
+		 self.events = [Event(event, events[event]) for event in events]
+
+
+# Eent class
+class Event:
+
+	def __init__(self, location, duration) -> None:
+		self.location = location
+		self.duration = duration
