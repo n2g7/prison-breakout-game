@@ -28,6 +28,13 @@ class Player:
 
 	def bribe(self):
 		print("How's 'bout I make you an offer you can't refuse?")
+		guard_responses = ["Hmmmm... what you got to offer?", "You've just earned yourself some time in solitary!!!"]
+		guard_response = random.choices(guard_response, weights = (popularity, 100-popularity), k=1)
+		print(guard_response)
+		if guard response == guard_responses[0]:
+			popularity += 10
+		else:
+			popularity -= 10
 
 	def interact(self):
 		if len(self.get_location().other_occupants(self)) > 0:
