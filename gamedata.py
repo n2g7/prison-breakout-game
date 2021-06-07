@@ -1,6 +1,6 @@
 # Inmates data
 inmates = [
-	{"name": "billy", "strength": 55, "friendliness": 40, "influence": 20},
+	{"name": "Verstappen", "strength": 55, "friendliness": 40, "influence": 20},
 	{"name": "bob", "strength": 70, "friendliness": 20, "influence": 50},
 	{"name": "joe", "strength": 23, "friendliness": 79, "influence": 30}
 ]
