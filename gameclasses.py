@@ -1,3 +1,5 @@
+import signal
+
 ################################################################################ CHARACTERS
 
 class Character:
@@ -11,11 +13,18 @@ class Character:
 
 class Player(Character):
 	
-	def __init__(self, name, prison, strength, popularity) -> None:
+	def __init__(self, name, schedule, prison, strength, popularity) -> None:
 		super().__init__(name)
 		self.prison = prison
+		self.schedule = schedule
 		self.strength = strength
 		self.popularity = popularity
+
+	def talk(self, inmate):
+		print(f'"Hey, {self.prison.inmate(inmate)}, how ya doin"')
+
+	def bribe(self, guard):
+		print(f'"Say, {self.prison.guard(guard)} - here\'s a proposish"')
 
 
 class Inmate(Character):
@@ -40,9 +49,17 @@ class Prison:
 	
 	def __init__(self, rooms) -> None:
 		self.rooms = rooms
+		self.guards = set()
+		self.inmates = set()
 
 	def room(self, name):
 		return next(filter(lambda room: room.name == name, self.rooms), None)
+
+	def inmate(self, name):
+		return next(filter(lambda inmate: inmate.name == name, self.inmates), None)
+
+	def guard(self, name):
+		return next(filter(lambda guard: guard.name == name, self.guards), None)
 
 	def move(self, character, location):
 		for room in self.rooms:
@@ -71,10 +88,28 @@ class Room:
 
 ################################################################################ SCHEDULE
 
+
 class Schedule:
 	
-	def __init__(self, events) -> None:
+	def __init__(self, events, prison) -> None:
 		self.events = events
+		self.prison = prison
+		self.event_counter = 0
+		self.action_counter = 0
+
+	def current_event(self):
+		return self.events[self.event_counter]
+
+	def next_event(self):
+		self.event_counter = self.event_counter + 1 if self.event_counter < len(self.events) - 1 else 0
+		for inmate in self.prison.inmates:
+			self.prison.move(inmate, self.current_event().location)
+
+	def next_action(self):
+		self.action_counter += 1
+		if self.action_counter >= self.current_event().duration:
+			self.action_counter = 0
+			self.next_event()
 
 
 class Event:
@@ -101,10 +136,19 @@ class Controller:
 	def move(self, location):
 		self.player.prison.move(self.player, location)
 
+	def talk(self, inmate):
+		self.player.talk(inmate)
+
+	def bribe(self, guard):
+		self.player.bribe(guard)
+
 	def info(self, question):
-		information = {
-			"where": f"You are in the {self.player.prison.location(self.player)}",
-			"who": f"You are with someone and someone else",
-			"when": "The time is something o'clock"
+		location = self.player.prison.location(self.player)
+		other_inmates = self.player.prison.location(self.player).get_occupants(exclude=self.player)
+		other_inmates_formatted = ", ".join([inmate.name for inmate in other_inmates]) if other_inmates else "no one else"
+		information_strings = {
+			"where": f"You are in the {location}",
+			"who": f"You are with {other_inmates_formatted}",
+			"when": f"{self.player.schedule.action_counter} of {self.player.schedule.current_event().duration} interactions left"
 		}
-		print(information[question])
+		print(information_strings[question])

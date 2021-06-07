@@ -14,13 +14,13 @@ guards = [
 
 # Prison room data
 rooms = [
-	{"name": "cells", "guard_count": 3},
-	{"name": "cafeteria", "guard_count": 4},
-	{"name": "yard", "guard_count": 5},
-	{"name": "laundry", "guard_count": 1},
-	{"name": "library", "guard_count": 0},
-	{"name": "solitary", "guard_count": 0},
-	{"name": "office", "guard_count": 2},
+	{"name": "cells"},
+	{"name": "cafeteria"},
+	{"name": "yard"},
+	{"name": "laundry"},
+	{"name": "library"},
+	{"name": "solitary"},
+	{"name": "office"},
 ]
 
 # Prison schedule data
@@ -28,9 +28,9 @@ schedule = [
 	{"location": "cells", "duration": 1},
 	{"location": "cafeteria", "duration": 3},
 	{"location": "laundry", "duration": 2},
-	{"location": "yard", "duration": 4},
+	{"location": "yard", "duration": 5},
 	{"location": "cafeteria", "duration": 3},
-	{"location": "library", "duration": 5},
+	{"location": "library", "duration": 6},
 	{"location": "cafeteria", "duration": 4},
 	{"location": "cells", "duration": 2},
 ]
